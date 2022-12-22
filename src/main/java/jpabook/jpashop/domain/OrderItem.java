@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 세터로 생성하지 말란 의미
 public class OrderItem {
     @Id
     @GeneratedValue
@@ -27,6 +30,7 @@ public class OrderItem {
     private int orderPrice;
 
     private int count;
+
 
     //== 생성 메소드 ==//
     public static OrderItem createOrderItem(Item item, int orderPrice, int count){

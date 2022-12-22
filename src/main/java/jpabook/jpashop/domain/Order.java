@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -15,6 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter @Setter
 @Table(name="orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 세터로 생성하지 말란 의미
 public class Order {
     @Id
     @GeneratedValue
