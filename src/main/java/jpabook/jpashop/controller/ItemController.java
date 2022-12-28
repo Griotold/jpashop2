@@ -62,17 +62,25 @@ public class ItemController {
         return "items/updateItemForm";
     }
 
+    // 업데이트 : merge
+//    @PostMapping("items/{id}/edit")
+//    public String updateItem(@ModelAttribute("form") BookForm form) {
+//        Book book = new Book();
+//        book.setId(form.getId());
+//        book.setName(form.getName());
+//        book.setPrice(form.getPrice());
+//        book.setStockQuantity(form.getStockQuantity());
+//        book.setAuthor(form.getAuthor());
+//        book.setIsbn(form.getIsbn());
+//
+//        itemService.save(book);
+//        return "redirect:/items";
+//    }
+    // 업데이트 : dirty checking
     @PostMapping("items/{id}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form) {
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+    public String updateItem(@ModelAttribute("form") BookForm form){
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice());
 
-        itemService.save(book);
         return "redirect:/items";
     }
 }
