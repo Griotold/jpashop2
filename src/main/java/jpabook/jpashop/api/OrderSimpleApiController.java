@@ -59,6 +59,19 @@ public class OrderSimpleApiController {
         return new Result(dtos.size(), dtos);
 
     }
+    /**
+     * V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
+     * - fetch join으로 쿼리 1번 호출
+     * 참고: fetch join에 대한 자세한 내용은 JPA 기본편 참고(정말 중요함)
+     */
+    @GetMapping("/api/v3/simple-orders")
+    public Result ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> dtos = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+        return new Result(dtos.size(), dtos);
+    }
     @Data // 껍데기 반환값
     @AllArgsConstructor
     static class Result<T> {
