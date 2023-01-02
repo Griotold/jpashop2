@@ -3,6 +3,7 @@ package jpabook.jpashop.api;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
+import jpabook.jpashop.dto.OrderSimpleQueryDto;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,16 @@ public class OrderSimpleApiController {
                 .map(o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());
         return new Result(dtos.size(), dtos);
+    }
+    /**
+     * V4. JPA에서 DTO로 바로 조회
+     * - 쿼리 1번 호출
+     * - select 절에서 원하는 데이터만 선택해서 조회
+     */
+    @GetMapping("/api/v4/simple-orders")
+    public Result orderV4() {
+        List<OrderSimpleQueryDto> orderDtos = orderRepository.findOrderDtos();
+        return new Result(orderDtos.size(), orderDtos);
     }
     @Data // 껍데기 반환값
     @AllArgsConstructor
