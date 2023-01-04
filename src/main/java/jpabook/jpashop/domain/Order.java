@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Order {
     @ManyToOne(fetch= LAZY)
     @JoinColumn(name = "member_id") // 연관관계 주인
     private Member member;
+
 
     @OneToMany(mappedBy = "order", cascade = ALL) // OrderItem에 있는 order 필드에 의해 매핑된 것이야.
     private List<OrderItem> orderItems = new ArrayList<>();
