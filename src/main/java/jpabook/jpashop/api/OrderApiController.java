@@ -28,10 +28,6 @@ public class OrderApiController {
      * - 트랜잭션 안에서 지연 로딩 필요
      * - 양방향 연관관계 문제
      *
-     * V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
-     * - 페이징 시에는 N 부분을 포기해야함(대신에 batch fetch size? 옵션 주면 N -> 1 쿼리로 변경
-     가능)
-     *
      * V4. JPA에서 DTO로 바로 조회, 컬렉션 N 조회 (1 + N Query)
      * - 페이징 가능
      * V5. JPA에서 DTO로 바로 조회, 컬렉션 1 조회 최적화 버전 (1 + 1 Query)
@@ -62,6 +58,19 @@ public class OrderApiController {
                 .collect(Collectors.toList());
         return collect;
     }
+    /**
+     *  V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
+     *      * - 페이징 시에는 N 부분을 포기해야함(대신에 batch fetch size? 옵션 주면 N -> 1 쿼리로 변경
+     *      가능)
+     * */
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> collect = orders.stream().map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+        return collect;
+    }
+
     @Data // getter만 있어도 됨. 회사마다 단출한 것을 선호하는 경우가 있음.
     static class OrderDto {
         private Long orderId;

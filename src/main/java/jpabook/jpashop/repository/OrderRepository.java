@@ -74,4 +74,14 @@ public class OrderRepository {
                 .getResultList();
         return resultList;
     }
+
+    public List<Order> findAllWithItem() {
+        List<Order> orders = em.createQuery("select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item", Order.class)
+                .getResultList();
+        return orders;
+    }
 }
