@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class Order {
     private Member member;
 
 
+    @BatchSize(size=1000)
     @OneToMany(mappedBy = "order", cascade = ALL) // OrderItem에 있는 order 필드에 의해 매핑된 것이야.
     private List<OrderItem> orderItems = new ArrayList<>();
 

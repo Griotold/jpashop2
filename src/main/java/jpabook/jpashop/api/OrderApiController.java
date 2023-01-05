@@ -10,6 +10,7 @@ import jpabook.jpashop.repository.OrderSearch;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -66,6 +67,22 @@ public class OrderApiController {
     @GetMapping("/api/v3/orders")
     public List<OrderDto> ordersV3() {
         List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> collect = orders.stream().map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+        return collect;
+    }
+    /**
+     *
+     * V 3.1 페이징과 한계돌파
+     * XtoOne 관계는 fetch join : order, member, delivery
+     * 컬렉션은 batch fetch size
+     *
+     * */
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> ordersV3_page(
+            @RequestParam(value="offset", defaultValue = "0") int offset,
+            @RequestParam(value="limit", defaultValue = "100") int limit) {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
         List<OrderDto> collect = orders.stream().map(o -> new OrderDto(o))
                 .collect(Collectors.toList());
         return collect;
