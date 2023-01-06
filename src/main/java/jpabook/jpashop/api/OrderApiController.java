@@ -33,8 +33,6 @@ public class OrderApiController {
      * - 양방향 연관관계 문제
      *
      *
-     * V5. JPA에서 DTO로 바로 조회, 컬렉션 1 조회 최적화 버전 (1 + 1 Query)
-     * - 페이징 가능
      * V6. JPA에서 DTO로 바로 조회, 플랫 데이터(1Query) (1 Query)
      * - 페이징 불가능...
      *
@@ -98,6 +96,14 @@ public class OrderApiController {
         return orderQueryRepository.findOrderQueryDtos();
     }
 
+    /**
+     * * V5. JPA에서 DTO로 바로 조회, 컬렉션 1 조회 최적화 버전 (1 + 1 Query)
+     *      * - 페이징 가능
+     * */
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> orderV5() {
+        return orderQueryRepository.findAllByDto_optimization();
+    }
     @Data // getter만 있어도 됨. 회사마다 단출한 것을 선호하는 경우가 있음.
     static class OrderDto {
         private Long orderId;
