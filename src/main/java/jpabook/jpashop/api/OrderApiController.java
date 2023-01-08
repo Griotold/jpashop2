@@ -5,6 +5,7 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.dto.OrderFlatDto;
 import jpabook.jpashop.dto.OrderQueryDto;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
@@ -31,10 +32,6 @@ public class OrderApiController {
      * - 엔티티가 변하면 API 스펙이 변한다.
      * - 트랜잭션 안에서 지연 로딩 필요
      * - 양방향 연관관계 문제
-     *
-     *
-     * V6. JPA에서 DTO로 바로 조회, 플랫 데이터(1Query) (1 Query)
-     * - 페이징 불가능...
      *
      */
     @GetMapping("/api/v1/orders")
@@ -103,6 +100,15 @@ public class OrderApiController {
     @GetMapping("/api/v5/orders")
     public List<OrderQueryDto> orderV5() {
         return orderQueryRepository.findAllByDto_optimization();
+    }
+
+    /**
+     * V6. JPA에서 DTO로 바로 조회, 플랫 데이터(1Query) (1 Query)
+     *      * - 페이징 불가능...
+     * */
+    @GetMapping("/api/v6/orders")
+    public List<OrderFlatDto> orderV6() {
+        return orderQueryRepository.findAllByDto_flat();
     }
     @Data // getter만 있어도 됨. 회사마다 단출한 것을 선호하는 경우가 있음.
     static class OrderDto {
